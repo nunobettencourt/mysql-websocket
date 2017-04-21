@@ -1,0 +1,37 @@
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="http://localhost:3000/socket.io/socket.io.js"></script>
+<script>
+    $(document).ready(function(){
+        // Connect to our node/websockets server
+        var socket = io.connect('http://localhost:3000');
+
+        // Initial set of events, loop through and add to list
+        socket.on('initial events', function(data){
+            var html = ''
+            for (var i = 0; i < data.length; i++){
+                // We store html as a var then add to DOM after for efficiency
+                html += '<li>' + data[i].reference + '</li>'
+            }
+            $('#events').html(html)
+        })
+
+        // New event emitted, add it to our list of current notes
+        socket.on('new note', function(data){
+            $('#events').append('<li>' + data.reference + '</li>')
+        })
+
+        // New socket connected, display new count on page
+        socket.on('users connected', function(data){
+            $('#usersConnected').html('Users connected: ' + data)
+        })
+
+        // Add a new (random) event, emit to server to let others know
+        $('#newEvent').click(function(){
+            var newEvent = 'This is a random ' + (Math.floor(Math.random() * 100) + 1)  + ' event'
+            socket.emit('new event', {event: newEvent})
+        })
+    })
+</script>
+<ul id="events"></ul>
+<div id="usersConnected"></div>
+<div id="newEvent">Create a new event</div>

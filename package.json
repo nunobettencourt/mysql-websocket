@@ -1,0 +1,16 @@
+{
+  "name": "chronit-socket-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "author": "Nuno Bettencourt",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "mysql": "^2.13.0",
+    "socket.io": "^1.7.3"
+  },
+  "devDependencies": {}
+}
